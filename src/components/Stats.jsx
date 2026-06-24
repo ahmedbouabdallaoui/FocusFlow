@@ -1,23 +1,40 @@
 import { useMemo } from 'react'
+import { motion } from 'framer-motion'
 import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts'
 import { useSessionStore } from '../stores/sessionStore'
 
 const FOCUS_MINUTES = 25
 const BREAK_MINUTES = 5
-
 const PIE_COLORS = ['var(--accent)', 'var(--border)']
 
 function CustomTooltip({ active, payload, label }) {
   if (!active || !payload || !payload.length) return null
   return (
-    <div className="rounded-lg bg-[var(--bg-primary)] border border-[var(--border)] px-3 py-2 text-xs shadow-xl">
-      {label && <p className="font-medium text-[var(--text-secondary)] mb-0.5">{label}</p>}
+    <div
+      className="rounded-lg border border-[var(--border)] px-3 py-2 text-xs shadow-xl"
+      style={{ backgroundColor: 'var(--tooltip-bg)', color: 'var(--text-primary)' }}
+    >
+      {label && <p className="font-medium mb-0.5" style={{ color: 'var(--text-secondary)' }}>{label}</p>}
       {payload.map((p, i) => (
-        <p key={i} className="text-[var(--text-primary)]" style={{ color: p.color }}>
-          {p.name}: {p.value}
+        <p key={i} className="font-medium" style={{ color: p.color }}>
+          {`${p.name}: ${p.value} min`}
         </p>
       ))}
     </div>
+  )
+}
+
+function Card({ children, delay = 0 }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay, duration: 0.4, ease: 'easeOut' }}
+      className="rounded-xl border border-[var(--border)] p-4"
+      style={{ backgroundColor: 'var(--bg-secondary)' }}
+    >
+      {children}
+    </motion.div>
   )
 }
 
@@ -30,7 +47,6 @@ export default function Stats() {
   const todayCount = useMemo(() => getTodayCount(), [getTodayCount])
   const weekCount = useMemo(() => getWeekCount(), [getWeekCount])
   const totalHours = useMemo(() => getTotalFocusHours(), [getTotalFocusHours])
-
   const totalSessions = useMemo(() => sessions.reduce((s, x) => s + x.count, 0), [sessions])
 
   const pieData = useMemo(() => {
@@ -59,29 +75,29 @@ export default function Stats() {
 
   return (
     <div className="w-full max-w-3xl mx-auto space-y-6">
-      <h2 className="text-sm font-semibold tracking-widest uppercase text-[var(--text-muted)]">Stats</h2>
+      <h2 className="text-sm font-semibold tracking-widest uppercase" style={{ color: 'var(--text-muted)' }}>Stats</h2>
 
       <div className="grid grid-cols-1 xs:grid-cols-3 gap-3">
-        <div className="rounded-xl bg-[var(--bg-secondary)] border border-[var(--border)] p-4 min-h-[80px]">
-          <span className="text-[11px] font-medium uppercase tracking-wider text-[var(--text-dim)]">Today</span>
-          <p className="text-2xl font-bold text-[var(--text-primary)] mt-1 tabular-nums">{todayCount}</p>
-          <p className="text-xs text-[var(--text-muted)] mt-0.5">focus sessions</p>
-        </div>
-        <div className="rounded-xl bg-[var(--bg-secondary)] border border-[var(--border)] p-4 min-h-[80px]">
-          <span className="text-[11px] font-medium uppercase tracking-wider text-[var(--text-dim)]">This Week</span>
-          <p className="text-2xl font-bold text-[var(--text-primary)] mt-1 tabular-nums">{weekCount}</p>
-          <p className="text-xs text-[var(--text-muted)] mt-0.5">focus sessions</p>
-        </div>
-        <div className="rounded-xl bg-[var(--bg-secondary)] border border-[var(--border)] p-4 min-h-[80px]">
-          <span className="text-[11px] font-medium uppercase tracking-wider text-[var(--text-dim)]">Total Time</span>
-          <p className="text-2xl font-bold text-[var(--text-primary)] mt-1 tabular-nums">{totalHours.toFixed(1)}</p>
-          <p className="text-xs text-[var(--text-muted)] mt-0.5">focus hours</p>
-        </div>
+        <Card delay={0.05}>
+          <span className="text-[11px] font-medium uppercase tracking-wider" style={{ color: 'var(--text-dim)' }}>Today</span>
+          <p className="text-2xl font-bold mt-1 tabular-nums" style={{ color: 'var(--text-primary)' }}>{todayCount}</p>
+          <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>focus sessions</p>
+        </Card>
+        <Card delay={0.1}>
+          <span className="text-[11px] font-medium uppercase tracking-wider" style={{ color: 'var(--text-dim)' }}>This Week</span>
+          <p className="text-2xl font-bold mt-1 tabular-nums" style={{ color: 'var(--text-primary)' }}>{weekCount}</p>
+          <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>focus sessions</p>
+        </Card>
+        <Card delay={0.15}>
+          <span className="text-[11px] font-medium uppercase tracking-wider" style={{ color: 'var(--text-dim)' }}>Total Time</span>
+          <p className="text-2xl font-bold mt-1 tabular-nums" style={{ color: 'var(--text-primary)' }}>{totalHours.toFixed(1)}</p>
+          <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>focus hours</p>
+        </Card>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="rounded-xl bg-[var(--bg-secondary)] border border-[var(--border)] p-4">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-[var(--text-dim)] mb-3">Focus vs Break</h3>
+        <Card delay={0.2}>
+          <h3 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--text-dim)' }}>Focus vs Break</h3>
           {totalSessions > 0 ? (
             <div className="flex items-center justify-center">
               <ResponsiveContainer width="100%" height={220}>
@@ -105,16 +121,19 @@ export default function Stats() {
               </ResponsiveContainer>
             </div>
           ) : (
-            <div className="flex items-center justify-center h-[180px] text-sm text-[var(--text-muted)]">No data yet</div>
+            <div className="flex flex-col items-center justify-center h-[180px] text-center">
+              <p className="text-sm font-medium" style={{ color: 'var(--text-muted)' }}>No data yet</p>
+              <p className="text-xs mt-1" style={{ color: 'var(--text-dim)' }}>Complete a focus session to see your breakdown</p>
+            </div>
           )}
-        </div>
+        </Card>
 
-        <div className="rounded-xl bg-[var(--bg-secondary)] border border-[var(--border)] p-4">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-[var(--text-dim)] mb-3">Last 7 Days</h3>
+        <Card delay={0.25}>
+          <h3 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--text-dim)' }}>Last 7 Days</h3>
           {totalSessions > 0 ? (
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={barData} margin={{ top: 5, right: 5, bottom: 5, left: -15 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" />
                 <XAxis
                   dataKey="date"
                   tick={{ fontSize: 11, fill: 'var(--text-dim)' }}
@@ -132,9 +151,12 @@ export default function Stats() {
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <div className="flex items-center justify-center h-[180px] text-sm text-[var(--text-muted)]">No data yet</div>
+            <div className="flex flex-col items-center justify-center h-[180px] text-center">
+              <p className="text-sm font-medium" style={{ color: 'var(--text-muted)' }}>No data yet</p>
+              <p className="text-xs mt-1" style={{ color: 'var(--text-dim)' }}>Your weekly activity will appear here</p>
+            </div>
           )}
-        </div>
+        </Card>
       </div>
     </div>
   )

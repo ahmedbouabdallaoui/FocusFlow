@@ -13,7 +13,7 @@ function formatTime(seconds) {
 export default function Timer() {
   const {
     secondsLeft, isRunning, customDuration,
-    start, pause, reset, setCustomDuration, tick,
+    phaseType, start, pause, reset, setCustomDuration, tick,
   } = useTimerStore()
   const intervalRef = useRef(null)
   const chimeRef = useRef(null)
@@ -44,6 +44,7 @@ export default function Timer() {
   const baseDuration = customDuration || 20 * 60
   const progress = secondsLeft / baseDuration
   const offset = CIRCUMFERENCE * (1 - progress)
+  const isFocus = phaseType === 'focus'
 
   function adjust(delta) {
     const current = customDuration || 20 * 60
@@ -61,12 +62,19 @@ export default function Timer() {
           />
           <motion.circle
             cx="190" cy="190" r="170"
-            fill="none" stroke="currentColor" strokeWidth="4"
+            fill="none"
+            strokeWidth="4"
             strokeLinecap="round"
             strokeDasharray={CIRCUMFERENCE}
-            animate={{ strokeDashoffset: offset }}
-            transition={{ duration: 0.4, ease: 'easeInOut' }}
-            className="text-[var(--accent)]"
+            stroke="var(--accent)"
+            animate={{
+              strokeDashoffset: offset,
+              opacity: isFocus && isRunning ? [1, 0.55, 1] : 1,
+            }}
+            transition={{
+              strokeDashoffset: { duration: 0.4, ease: 'easeInOut' },
+              opacity: { duration: 4, repeat: Infinity, ease: 'easeInOut' },
+            }}
           />
         </svg>
         <div className="absolute flex items-center justify-center gap-4 sm:gap-6 lg:gap-8">
@@ -77,7 +85,10 @@ export default function Timer() {
           >
             −
           </button>
-          <span className="min-w-[120px] sm:min-w-[160px] lg:min-w-[180px] text-center text-5xl sm:text-6xl lg:text-7xl font-light tracking-tight text-[var(--text-primary)]">
+          <span
+            className="min-w-[120px] sm:min-w-[160px] lg:min-w-[180px] text-center font-light tracking-tight text-[var(--text-primary)]"
+            style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 'clamp(2.5rem, 8vw, 4.5rem)' }}
+          >
             {formatTime(secondsLeft)}
           </span>
           <button

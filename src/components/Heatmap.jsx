@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { motion } from 'framer-motion'
 import { useSessionStore } from '../stores/sessionStore'
 
 const DAY_LABELS = ['', 'Mon', '', 'Wed', '', 'Fri', '']
@@ -14,6 +15,7 @@ function getIntensity(count) {
 
 export default function Heatmap() {
   const sessions = useSessionStore((s) => s.sessions)
+  const hasData = sessions.length > 0
 
   const { weeks, monthLabels } = useMemo(() => {
     const today = new Date()
@@ -64,6 +66,25 @@ export default function Heatmap() {
     return { weeks, monthLabels: months }
   }, [sessions])
 
+  if (!hasData) {
+    return (
+      <div className="w-full max-w-3xl mx-auto">
+        <h2 className="text-sm font-semibold tracking-widest uppercase text-[var(--text-muted)] mb-4">
+          Focus Activity
+        </h2>
+        <div className="flex flex-col items-center justify-center py-16 text-center">
+          <div className="flex gap-[3px] mb-4 opacity-30">
+            {Array.from({ length: 30 }).map((_, i) => (
+              <div key={i} className="h-[10px] w-[10px] rounded-[2px]" style={{ backgroundColor: 'var(--border)' }} />
+            ))}
+          </div>
+          <p className="text-sm font-medium text-[var(--text-muted)]">Complete your first focus session to see your activity here</p>
+          <p className="text-xs text-[var(--text-dim)] mt-1">Each square is one day</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="w-full max-w-3xl mx-auto">
       <h2 className="text-sm font-semibold tracking-widest uppercase text-[var(--text-muted)] mb-4">
@@ -92,7 +113,13 @@ export default function Heatmap() {
             </div>
 
             {weeks.map((week, wi) => (
-              <div key={wi} className="flex flex-col gap-[2px] sm:gap-[3px]">
+              <motion.div
+                key={wi}
+                className="flex flex-col gap-[2px] sm:gap-[3px]"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: wi * 0.008, duration: 0.3 }}
+              >
                 {week.map((day, di) => {
                   if (!day) return <div key={di} className="h-[12px] sm:h-[14px] w-[12px] sm:w-[14px]" />
                   return (
@@ -100,14 +127,17 @@ export default function Heatmap() {
                       key={day.date}
                       className={`heatmap-cell ${getIntensity(day.count)} group relative h-[12px] sm:h-[14px] w-[12px] sm:w-[14px] rounded-[3px] cursor-default`}
                     >
-                      <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 rounded-md bg-[var(--bg-primary)] border border-[var(--border)] px-2 py-1 text-xs text-[var(--text-primary)] whitespace-nowrap opacity-0 transition-opacity group-hover:opacity-100 shadow-lg z-10">
-                        {day.count > 0 ? `${day.count} session${day.count > 1 ? 's' : ''} on ` : 'No sessions on '}
-                        {new Date(day.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                      <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 rounded-md border border-[var(--border)] px-2 py-1 text-xs whitespace-nowrap opacity-0 transition-opacity group-hover:opacity-100 shadow-lg z-10"
+                        style={{ backgroundColor: 'var(--tooltip-bg)', color: 'var(--text-primary)' }}
+                      >
+                        {day.count > 0
+                          ? `${day.count} session${day.count > 1 ? 's' : ''} — ${new Date(day.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`
+                          : new Date(day.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                       </div>
                     </div>
                   )
                 })}
-              </div>
+              </motion.div>
             ))}
           </div>
 
