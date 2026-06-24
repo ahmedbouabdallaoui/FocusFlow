@@ -35,3 +35,29 @@
   --color-accent-light: var(--accent-light);
   --color-outline: var(--outline);
 }
+
+@layer base {
+  body {
+    margin: 0;
+  }
+}
+
+.ambient-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 0.6s;
+}
+
+.ambient-bg.rain {
+  background: linear-gradient(180deg, rgba(30, 58, 138, 0.3) 0%, transparent 60%);
+}
+
+.ambient-bg.coffee {
+  background: radial-gradient(ellipse at 50% 100%, rgba(120, 80, 40, 0.25) 0%, transparent 60%);
+}
+
+.ambient-bg.lofi {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(236, 72, 153, 0.1) 100%);
+}
