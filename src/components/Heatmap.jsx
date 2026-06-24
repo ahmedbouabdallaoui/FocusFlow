@@ -99,13 +99,13 @@ export default function Heatmap() {
         <h2 className="text-sm font-semibold tracking-widest uppercase text-[var(--text-muted)]">
           Focus Activity
         </h2>
-        <div className="flex gap-1">
+        <div className="flex gap-0.5 sm:gap-1">
           {years.map((y) => (
             <button
               key={y}
               type="button"
               onClick={() => setYear(y)}
-              className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors ${
+              className={`px-1.5 sm:px-2.5 py-1 text-[11px] sm:text-xs font-medium rounded-md transition-colors ${
                 y === year
                   ? 'bg-[var(--active-bg)] text-[var(--accent)]'
                   : 'text-[var(--text-dim)] hover:text-[var(--text-secondary)] hover:bg-[var(--hover-bg)]'
@@ -119,7 +119,7 @@ export default function Heatmap() {
 
       <div className="overflow-x-auto pb-2 -mx-4 sm:mx-0 px-4 sm:px-0" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
         <div className="inline-block min-w-0">
-          <div className="flex mb-1 ml-[30px] text-[11px] font-medium text-[var(--text-dim)]">
+          <div className="flex mb-1 ml-0 sm:ml-[30px] text-[11px] font-medium text-[var(--text-dim)]">
             {monthPositions.map((m, i) => {
               const prevWeek = i === 0 ? 0 : monthPositions[i - 1].weekIndex
               const w = (m.weekIndex - prevWeek) * (CELL + GAP) + (CELL + GAP) / 2
@@ -132,7 +132,7 @@ export default function Heatmap() {
           </div>
 
           <div className="flex gap-[3px]">
-            <div className="flex flex-col gap-[3px] mr-[6px] text-[11px] font-medium text-[var(--text-dim)] pt-[2px] shrink-0 w-[24px]">
+            <div className="hidden sm:flex flex-col gap-[3px] mr-[6px] text-[11px] font-medium text-[var(--text-dim)] pt-[2px] shrink-0 w-[24px]">
               {DAY_LABELS.map((label, i) => (
                 <div key={i} className="flex items-end h-[12px] leading-none">{label}</div>
               ))}

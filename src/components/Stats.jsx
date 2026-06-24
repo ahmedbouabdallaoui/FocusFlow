@@ -75,8 +75,8 @@ export default function Stats() {
           <h3 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--text-dim)' }}>Work vs Rest</h3>
           {totalSessions > 0 ? (
             <div className="flex flex-col items-center">
-              <div className="relative flex items-center justify-center">
-                <ResponsiveContainer width={200} height={200}>
+              <div className="relative flex items-center justify-center w-full max-w-[200px] mx-auto">
+                <ResponsiveContainer width="100%" height={200}>
                   <PieChart>
                     <Pie
                       data={pieData}
@@ -99,14 +99,14 @@ export default function Stats() {
                   <span className="text-[11px] font-medium" style={{ color: 'var(--text-muted)' }}>focus</span>
                 </div>
               </div>
-              <div className="flex gap-6 mt-2">
-                <div className="flex items-center gap-2">
-                  <div className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: 'var(--accent)' }} />
-                  <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>Focus {Math.round(focusMinutes)}min</span>
+              <div className="flex gap-4 sm:gap-6 mt-2">
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <div className="h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--accent)' }} />
+                  <span className="text-[11px] sm:text-xs whitespace-nowrap" style={{ color: 'var(--text-secondary)' }}>Focus {Math.round(focusMinutes)}min</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: 'var(--border)' }} />
-                  <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>Break {Math.round(breakMinutes)}min</span>
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <div className="h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--border)' }} />
+                  <span className="text-[11px] sm:text-xs whitespace-nowrap" style={{ color: 'var(--text-secondary)' }}>Break {Math.round(breakMinutes)}min</span>
                 </div>
               </div>
             </div>
@@ -140,7 +140,7 @@ export default function Stats() {
           {totalSessions > 0 ? (
             <div className="flex items-center h-[240px]">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={barData} margin={{ top: 10, right: 5, bottom: 5, left: -15 }}>
+                <BarChart data={barData} margin={{ top: 10, right: 4, bottom: 5, left: -10 }}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" />
                   <XAxis
                     dataKey="date"

@@ -10,7 +10,7 @@ export default function StreakBadge() {
   return (
     <motion.div
       layout
-      className="flex items-center gap-3 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border)] px-3 sm:px-4 py-2 sm:py-2.5 min-h-[44px]"
+      className="flex items-center gap-2 sm:gap-3 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border)] px-2.5 sm:px-4 py-1.5 sm:py-2.5 min-h-[44px]"
     >
       <AnimatePresence mode="wait">
         {current > 0 ? (
