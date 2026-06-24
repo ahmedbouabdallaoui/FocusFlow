@@ -76,3 +76,26 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .ambient-layer.lofi {
   background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(236, 72, 153, 0.08) 100%);
 }
+
+.heatmap-cell {
+  background-color: var(--border);
+  transition: background-color 0.15s ease;
+}
+
+.heatmap-cell.level-1 {
+  background-color: color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+.heatmap-cell.level-2 {
+  background-color: color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.heatmap-cell.level-3 {
+  background-color: color-mix(in srgb, var(--accent) 65%, transparent);
+}
+
+.heatmap-cell.level-4 {
+  background-color: color-mix(in srgb, var(--accent) 90%, transparent);
+}
+
+@custom-media --xs (min-width: 480px);
