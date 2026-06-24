@@ -32,7 +32,7 @@ A Pomodoro timer + task manager with a GitHub-style heatmap tracking focus sessi
 - useOptimistic for instant checkbox toggle
 - Persisted to localStorage
 
-### GitHub Heatmap (`feature/mohamed/heatmap`)
+### GitHub Heatmap (`feature/mohammed/heatmap`)
 - 7-column grid, 52 weeks — matches GitHub profile exactly
 - Each cell = number of focus sessions that day
 - Color intensity scale (0 → 1-2 → 3-4 → 5-7 → 8+)
@@ -40,20 +40,20 @@ A Pomodoro timer + task manager with a GitHub-style heatmap tracking focus sessi
 - Current week highlighted
 - Month labels on top, day labels on left
 
-### Streak Tracker (`feature/mohamed/stats`)
+### Streak Tracker (`feature/mohammed/stats`)
 - Count consecutive days with ≥1 focus session
 - Animated streak counter with flame emoji when 🔥
 - All-time best streak
 - "Keep it going!" / "Start a new streak" messages
 
-### Stats Dashboard (`feature/mohamed/stats`)
+### Stats Dashboard (`feature/mohammed/stats`)
 - Today's session count
 - This week's total sessions
 - Pie chart: focus time vs break time
 - Bar chart: last 7 days comparison
 - All-time total focus hours
 
-### Ambient Modes (`feature/mohamed/ambient`)
+### Ambient Modes (`feature/mohammed/ambient`)
 - 3 modes: Rain, Coffee Shop, Lofi
 - Each has animated background (CSS) + loop audio (Howler.js)
 - Toggle mode from bottom toolbar
@@ -106,15 +106,15 @@ A Pomodoro timer + task manager with a GitHub-style heatmap tracking focus sessi
 ## Git Branching Strategy
 
 ```
-main                          ← production, only merged from ahmed & mohamed
+main                          ← production, only merged from ahmed & mohammed
  ├── ahmed                   ← Ahmed works here directly
- └── mohamed                 ← Mohammed works here directly
+ └── mohammed                 ← Mohammed works here directly
 ```
 
 ### Rules
-1. **No one commits directly to `main`** — only merge via PR from `ahmed` or `mohamed` branches
+1. **No one commits directly to `main`** — only merge via PR from `ahmed` or `mohammed` branches
 2. **Ahmed works on `ahmed` branch** — commit all his work there, push daily
-3. **Mohammed works on `mohamed` branch** — commit all his work there, push daily
+3. **Mohammed works on `mohammed` branch** — commit all his work there, push daily
 4. **PR → `main`** — when a feature is complete, the other person reviews, then merges
 5. **Before merging to `main`**, both pull `main` into their branch and resolve conflicts locally
 6. **`main` must always compile** — broken code stays on personal branches
@@ -155,16 +155,16 @@ git add -A && git commit -m "feat(timer): add pause/resume"
 git push origin ahmed
 
 # Mohammed: same flow
-git checkout mohamed
+git checkout mohammed
 git pull origin main          # get Ahmed's latest
 # ... code ...
 git add -A && git commit -m "feat(heatmap): add tooltip on hover"
-git push origin mohamed
+git push origin mohammed
 
 # Merging to main (done by either person after review)
 git checkout main
 git pull origin main
-git merge ahmed               # or git merge mohamed
+git merge ahmed               # or git merge mohammed
 git push origin main
 ```
 
