@@ -12,13 +12,13 @@ export default function App() {
   const [view, setView] = useState('pomodoro')
 
   return (
-    <div className="flex min-h-svh bg-neutral-950 text-white">
+    <div className="flex min-h-svh bg-[var(--bg-primary)]">
       <Sidebar view={view} setView={setView} />
 
       <main className="flex flex-1 flex-col overflow-y-auto px-8 py-12">
         <div className="flex-1">
           {view === 'pomodoro' && (
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center justify-center h-full">
               <Timer />
             </div>
           )}

@@ -37,49 +37,49 @@ export default function TaskForm({ open, onClose }) {
           exit={{ opacity: 0, height: 0 }}
           className="overflow-hidden"
         >
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4 rounded-xl border border-white/[0.08] bg-white/[0.03] p-5">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] p-5">
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Task title"
               autoFocus
-              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-base text-white placeholder-white/25 outline-none transition-colors focus:border-white/30"
+              className="w-full rounded-xl border border-[var(--border)] bg-[var(--input-bg)] px-4 py-3 text-base text-[var(--text-primary)] placeholder-[var(--text-muted)] outline-none transition-colors focus:border-[var(--border-hover)]"
             />
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Description (optional)"
               rows={2}
-              className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/25 outline-none transition-colors focus:border-white/30"
+              className="w-full resize-none rounded-xl border border-[var(--border)] bg-[var(--input-bg)] px-4 py-3 text-sm text-[var(--text-primary)] placeholder-[var(--text-muted)] outline-none transition-colors focus:border-[var(--border-hover)]"
             />
             <div className="flex gap-4">
               <div className="flex flex-1 flex-col gap-1.5">
-                <label className="text-xs font-semibold tracking-wider uppercase text-white/35">Due</label>
+                <label className="text-xs font-semibold tracking-wider uppercase text-[var(--text-dim)]">Due</label>
                 <input
                   type="date"
                   value={dueDate}
                   onChange={(e) => setDueDate(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white outline-none transition-colors focus:border-white/30 [color-scheme:dark]"
+                  className="w-full rounded-xl border border-[var(--border)] bg-[var(--input-bg)] px-4 py-2.5 text-sm text-[var(--text-primary)] outline-none transition-colors focus:border-[var(--border-hover)] [color-scheme:dark]"
                 />
               </div>
               <div className="flex flex-1 flex-col gap-1.5">
-                <label className="text-xs font-semibold tracking-wider uppercase text-white/35">Pomodoros</label>
+                <label className="text-xs font-semibold tracking-wider uppercase text-[var(--text-dim)]">Pomodoros</label>
                 <input
                   type="number"
                   min={1}
                   max={99}
                   value={estimatedPomodoros}
                   onChange={(e) => setEstimatedPomodoros(Number(e.target.value))}
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white outline-none transition-colors focus:border-white/30 [color-scheme:dark]"
+                  className="w-full rounded-xl border border-[var(--border)] bg-[var(--input-bg)] px-4 py-2.5 text-sm text-[var(--text-primary)] outline-none transition-colors focus:border-[var(--border-hover)] [color-scheme:dark]"
                 />
               </div>
               <div className="flex flex-1 flex-col gap-1.5">
-                <label className="text-xs font-semibold tracking-wider uppercase text-white/35">Priority</label>
+                <label className="text-xs font-semibold tracking-wider uppercase text-[var(--text-dim)]">Priority</label>
                 <select
                   value={priority}
                   onChange={(e) => setPriority(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-neutral-800 px-4 py-2.5 text-sm text-white outline-none transition-colors focus:border-white/30"
+                  className="w-full rounded-xl border border-[var(--border)] bg-[var(--input-bg)] px-4 py-2.5 text-sm text-[var(--text-primary)] outline-none transition-colors focus:border-[var(--border-hover)]"
                 >
                   <option value="low">Low</option>
                   <option value="medium">Medium</option>
@@ -90,14 +90,14 @@ export default function TaskForm({ open, onClose }) {
             <div className="flex gap-3">
               <button
                 type="submit"
-                className="flex-1 rounded-xl bg-white/12 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/25"
+                className="flex-1 rounded-xl bg-[var(--active-bg)] py-3 text-sm font-semibold text-[var(--text-primary)] transition-colors hover:bg-[var(--active-bg)]"
               >
                 Add Task
               </button>
               <button
                 type="button"
                 onClick={onClose}
-                className="rounded-xl border border-white/12 px-6 py-3 text-sm text-white/45 transition-colors hover:border-white/30 hover:text-white/80"
+                className="rounded-xl border border-[var(--border)] px-6 py-3 text-sm text-[var(--text-muted)] transition-colors hover:border-[var(--border-hover)] hover:text-[var(--text-secondary)]"
               >
                 Cancel
               </button>

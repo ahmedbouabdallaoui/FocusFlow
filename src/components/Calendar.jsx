@@ -44,19 +44,19 @@ export default function Calendar() {
   return (
     <div className="w-full max-w-xl">
       <div className="flex items-center justify-between mb-5">
-        <h2 className="text-sm font-semibold tracking-widest uppercase text-white/40">Calendar</h2>
+        <h2 className="text-sm font-semibold tracking-widest uppercase text-[var(--text-muted)]">Calendar</h2>
         <div className="flex items-center gap-3">
-          <button type="button" onClick={prevMonth} className="text-white/40 hover:text-white/80 transition-colors text-base">←</button>
-          <span className="text-base text-white/60 font-medium min-w-[140px] text-center">
+          <button type="button" onClick={prevMonth} className="text-[var(--text-muted)] hover:text-[var(--text-secondary)] transition-colors text-base">←</button>
+          <span className="text-base text-[var(--text-secondary)] font-medium min-w-[140px] text-center">
             {new Date(year, month).toLocaleString('default', { month: 'long', year: 'numeric' })}
           </span>
-          <button type="button" onClick={nextMonth} className="text-white/40 hover:text-white/80 transition-colors text-base">→</button>
+          <button type="button" onClick={nextMonth} className="text-[var(--text-muted)] hover:text-[var(--text-secondary)] transition-colors text-base">→</button>
         </div>
       </div>
 
       <div className="grid grid-cols-7 gap-px">
         {DAYS.map((d) => (
-          <div key={d} className="py-2 text-center text-xs font-semibold tracking-wider uppercase text-white/25">{d}</div>
+          <div key={d} className="py-2 text-center text-xs font-semibold tracking-wider uppercase text-[var(--text-dim)]">{d}</div>
         ))}
         {cells.map((d, i) => {
           if (d === null) return <div key={`empty-${i}`} />
@@ -67,12 +67,12 @@ export default function Calendar() {
             <div
               key={ds}
               className={`relative flex items-center justify-center rounded-xl py-3 text-sm transition-colors ${
-                isToday ? 'bg-amber-400/15 text-amber-300 font-semibold' : 'text-white/45 hover:bg-white/[0.04]'
+                isToday ? 'bg-[var(--accent)]/15 text-[var(--accent)] font-semibold' : 'text-[var(--text-muted)] hover:bg-[var(--hover-bg)]'
               }`}
             >
               {d}
               {dayTasks && dayTasks.length > 0 && (
-                <span className="absolute bottom-1.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-amber-400/70" />
+                <span className="absolute bottom-1.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-[var(--accent)]" />
               )}
             </div>
           )

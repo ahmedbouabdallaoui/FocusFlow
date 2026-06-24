@@ -15,13 +15,13 @@ export default function ThemePanel() {
   return (
     <div className="flex w-full max-w-xl flex-col gap-8">
       <div className="flex flex-col gap-4">
-        <h2 className="text-sm font-semibold tracking-widest uppercase text-white/40">Mode</h2>
+        <h2 className="text-sm font-semibold tracking-widest uppercase text-[var(--text-muted)]">Mode</h2>
         <div className="flex gap-3">
           <button
             type="button"
             onClick={() => setMode('dark')}
             className={`rounded-xl px-6 py-3 text-base font-medium transition-all ${
-              mode === 'dark' ? 'bg-white/15 text-white' : 'bg-white/[0.04] text-white/45 hover:bg-white/[0.08] hover:text-white/70'
+              mode === 'dark' ? 'bg-[var(--active-bg)] text-[var(--text-primary)]' : 'bg-[var(--hover-bg)] text-[var(--text-muted)] hover:text-[var(--text-secondary)]'
             }`}
           >
             Dark
@@ -30,7 +30,7 @@ export default function ThemePanel() {
             type="button"
             onClick={() => setMode('light')}
             className={`rounded-xl px-6 py-3 text-base font-medium transition-all ${
-              mode === 'light' ? 'bg-white/15 text-white' : 'bg-white/[0.04] text-white/45 hover:bg-white/[0.08] hover:text-white/70'
+              mode === 'light' ? 'bg-[var(--active-bg)] text-[var(--text-primary)]' : 'bg-[var(--hover-bg)] text-[var(--text-muted)] hover:text-[var(--text-secondary)]'
             }`}
           >
             Light
@@ -39,7 +39,7 @@ export default function ThemePanel() {
       </div>
 
       <div className="flex flex-col gap-4">
-        <h2 className="text-sm font-semibold tracking-widest uppercase text-white/40">Accent</h2>
+        <h2 className="text-sm font-semibold tracking-widest uppercase text-[var(--text-muted)]">Accent</h2>
         <div className="flex gap-4">
           {ACCENTS.map((a) => (
             <button
@@ -48,7 +48,7 @@ export default function ThemePanel() {
               onClick={() => setAccent(a.key)}
               className={`h-10 w-10 rounded-full transition-all ${
                 a.class} ${
-                accent === a.key ? 'ring-2 ring-white ring-offset-2 ring-offset-neutral-950 scale-110' : 'opacity-50 hover:opacity-90'
+                accent === a.key ? 'ring-2 ring-[var(--text-primary)] ring-offset-2 ring-offset-[var(--bg-primary)] scale-110' : 'opacity-50 hover:opacity-90'
               }`}
             />
           ))}
