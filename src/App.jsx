@@ -1,31 +1,61 @@
-import Heatmap from './components/Heatmap.jsx'
-import Stats from './components/Stats.jsx'
-import StreakBadge from './components/StreakBadge.jsx'
-import Ambient from './components/Ambient.jsx'
+import { useState } from 'react'
+import Sidebar from './components/Sidebar'
+import Timer from './components/Timer'
+import TaskList from './components/TaskList'
+import Calendar from './components/Calendar'
+import ThemePanel from './components/ThemePanel'
+import Heatmap from './components/Heatmap'
+import Stats from './components/Stats'
+import Ambient from './components/Ambient'
 
-function App() {
+export default function App() {
+  const [view, setView] = useState('pomodoro')
+
   return (
-    <div className="min-h-screen bg-surface text-on-surface pb-20">
-      <div className="max-w-4xl mx-auto p-4 space-y-8">
-        <header className="flex items-center justify-between mb-2">
-          <h1 className="text-xl font-bold">Focus Flow</h1>
-          <StreakBadge />
-        </header>
+    <div className="flex min-h-svh bg-neutral-950 text-white">
+      <Sidebar view={view} setView={setView} />
 
-        <section>
-          <h2 className="text-lg font-semibold mb-3">Activity</h2>
-          <Heatmap />
-        </section>
+      <main className="flex flex-1 flex-col overflow-y-auto px-8 py-12">
+        <div className="flex-1">
+          {view === 'pomodoro' && (
+            <div className="flex flex-col items-center">
+              <Timer />
+            </div>
+          )}
 
-        <section>
-          <h2 className="text-lg font-semibold mb-3">Statistics</h2>
-          <Stats />
-        </section>
-      </div>
+          {view === 'tasks' && (
+            <div className="flex w-full max-w-2xl flex-col items-center mx-auto">
+              <TaskList />
+            </div>
+          )}
+
+          {view === 'stats' && (
+            <div className="w-full max-w-2xl mx-auto">
+              <Stats />
+            </div>
+          )}
+
+          {view === 'calendar' && (
+            <div className="flex w-full max-w-xl flex-col items-center mx-auto">
+              <Calendar />
+            </div>
+          )}
+
+          {view === 'heatmap' && (
+            <div className="w-full max-w-3xl mx-auto">
+              <Heatmap />
+            </div>
+          )}
+
+          {view === 'theme' && (
+            <div className="flex w-full max-w-xl flex-col items-center mx-auto">
+              <ThemePanel />
+            </div>
+          )}
+        </div>
+      </main>
 
       <Ambient />
     </div>
   )
 }
-
-export default App
