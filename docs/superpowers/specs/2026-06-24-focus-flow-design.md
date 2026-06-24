@@ -87,13 +87,13 @@ A Pomodoro timer + task manager with a GitHub-style heatmap tracking focus sessi
 
 ### Sprint 2 — Polish
 
-| # | Ticket | Owner | Description |
-|---|---|---|---|
+| # | Ticket | Owner    | Description |
+|---|---|----------|---|
 | 8 | Ambient modes — Rain / Coffee / Lofi | Mohammed | Animated backgrounds + Howler.js audio loops |
 | 9 | Stats dashboard — pie + bar charts | Mohammed | Recharts integration, session analytics |
 | 10 | Streak tracker — logic + animation | Mohammed | Consecutive day counter, flame animation |
-| 11 | Timer finish notification + sound | Ahmed | Browser notification, chime audio on session end |
-| 12 | Drag reorder tasks | Ahmed | Framer Motion's Reorder component |
+| 11 | Timer finish notification + sound | Ahmed    | Browser notification, chime audio on session end |
+| 12 | Drag reorder tasks | Mohammed | Framer Motion's Reorder component |
 
 ### Sprint 3 — Final
 
