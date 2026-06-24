@@ -5,13 +5,13 @@ import TaskList from './components/TaskList'
 import Calendar from './components/Calendar'
 import ThemePanel from './components/ThemePanel'
 
-const PLACEHOLDER_STYLES = 'text-sm text-white/30 text-center py-16'
+const PLACEHOLDER_STYLES = 'text-sm text-[var(--text-muted)] text-center py-16'
 
 export default function App() {
   const [view, setView] = useState('pomodoro')
 
   return (
-    <div className="flex min-h-svh bg-neutral-950">
+    <div className="flex min-h-svh bg-[var(--bg-primary)]">
       <Sidebar view={view} setView={setView} />
 
       <main className="flex flex-1 flex-col items-center justify-center overflow-y-auto px-8 py-12">
@@ -37,12 +37,6 @@ export default function App() {
           <div className="flex w-full max-w-xl flex-col items-center">
             <Calendar />
           </div>
-        )}
-
-        {view === 'heatmap' && (
-          <p className={PLACEHOLDER_STYLES}>
-            Heatmap — coming from Mohammed
-          </p>
         )}
 
         {view === 'theme' && (

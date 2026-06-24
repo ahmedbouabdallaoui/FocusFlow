@@ -58,7 +58,7 @@ export default function Timer() {
         <svg width="380" height="380" className="-rotate-90">
           <circle
             cx="190" cy="190" r={RADIUS}
-            fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="4"
+            fill="none" stroke="var(--border)" strokeWidth="4"
           />
           <motion.circle
             cx="190" cy="190" r={RADIUS}
@@ -67,24 +67,24 @@ export default function Timer() {
             strokeDasharray={CIRCUMFERENCE}
             animate={{ strokeDashoffset: offset }}
             transition={{ duration: 0.4, ease: 'easeInOut' }}
-            className="text-amber-400"
+            className="text-[var(--accent)]"
           />
         </svg>
         <div className="absolute flex items-center justify-center gap-8">
           <button
             type="button"
             onClick={() => adjust(-1)}
-            className="text-2xl text-white/30 transition-colors hover:text-white/70"
+            className="text-2xl text-[var(--text-muted)] transition-colors hover:text-[var(--text-secondary)]"
           >
             −
           </button>
-          <span className="min-w-[180px] text-center text-7xl font-light tracking-tight text-white">
+          <span className="min-w-[180px] text-center text-7xl font-light tracking-tight text-[var(--text-primary)]">
             {formatTime(secondsLeft)}
           </span>
           <button
             type="button"
             onClick={() => adjust(1)}
-            className="text-2xl text-white/30 transition-colors hover:text-white/70"
+            className="text-2xl text-[var(--text-muted)] transition-colors hover:text-[var(--text-secondary)]"
           >
             +
           </button>
@@ -96,7 +96,7 @@ export default function Timer() {
           type="button"
           onClick={isRunning ? pause : start}
           whileTap={{ scale: 0.95 }}
-          className="rounded-full bg-white px-12 py-3 text-base font-semibold text-neutral-900 transition-colors hover:bg-white/90"
+          className="rounded-full bg-[var(--btn-bg)] px-12 py-3 text-base font-semibold text-[var(--btn-text)] transition-colors hover:bg-[var(--btn-hover)]"
         >
           {isRunning ? 'Pause' : 'Start'}
         </motion.button>
@@ -104,7 +104,7 @@ export default function Timer() {
           type="button"
           onClick={reset}
           whileTap={{ scale: 0.95 }}
-          className="rounded-full border border-white/20 px-9 py-3 text-base font-medium text-white/60 transition-colors hover:border-white/40 hover:text-white/90"
+          className="rounded-full border border-[var(--border-hover)] px-9 py-3 text-base font-medium text-[var(--text-secondary)] transition-colors hover:border-[var(--border-hover)] hover:text-[var(--text-primary)]"
         >
           Reset
         </motion.button>
