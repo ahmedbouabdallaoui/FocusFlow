@@ -117,7 +117,7 @@ export default function Heatmap() {
         </div>
       </div>
 
-      <div className="overflow-x-auto pb-2 -mx-4 sm:mx-0 px-4 sm:px-0" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+      <div className="overflow-x-auto pb-2 max-w-full" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
         <div className="inline-block min-w-0">
           <div className="relative h-4 mb-1 ml-0 sm:ml-[30px] text-[11px] font-medium text-[var(--text-dim)]">
             {monthPositions.map((m) => (
