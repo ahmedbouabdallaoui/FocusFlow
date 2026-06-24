@@ -1,50 +1,51 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200..1000;1,9..40,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200..1000;1,9..40,200..1000&display=swap') layer(base);
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap') layer(base);
 
 :root, .dark {
-  --bg-primary: #0a0a0b;
-  --bg-secondary: rgba(255,255,255,0.04);
-  --bg-elevated: rgba(255,255,255,0.06);
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255,255,255,0.65);
-  --text-muted: rgba(255,255,255,0.35);
-  --text-dim: rgba(255,255,255,0.2);
-  --border: rgba(255,255,255,0.06);
-  --border-hover: rgba(255,255,255,0.2);
-  --input-bg: rgba(255,255,255,0.05);
-  --hover-bg: rgba(255,255,255,0.04);
-  --active-bg: rgba(255,255,255,0.10);
-  --btn-bg: #ffffff;
-  --btn-text: #0a0a0b;
-  --btn-hover: rgba(255,255,255,0.9);
+  --bg-primary: #080810;
+  --bg-secondary: rgba(228,228,240,0.04);
+  --bg-elevated: rgba(228,228,240,0.07);
+  --text-primary: #E4E4F0;
+  --text-secondary: rgba(228,228,240,0.55);
+  --text-muted: rgba(228,228,240,0.32);
+  --text-dim: rgba(228,228,240,0.18);
+  --border: rgba(228,228,240,0.07);
+  --border-hover: rgba(228,228,240,0.2);
+  --input-bg: rgba(228,228,240,0.04);
+  --hover-bg: rgba(228,228,240,0.04);
+  --active-bg: rgba(228,228,240,0.09);
+  --btn-bg: #E4E4F0;
+  --btn-text: #080810;
+  --btn-hover: rgba(228,228,240,0.85);
+  --tooltip-bg: #1A1A24;
 }
 
 .light {
-  --bg-primary: #f0f0f0;
-  --bg-secondary: rgba(0,0,0,0.03);
-  --bg-elevated: rgba(0,0,0,0.04);
-  --text-primary: #0a0a0b;
-  --text-secondary: rgba(0,0,0,0.6);
-  --text-muted: rgba(0,0,0,0.4);
-  --text-dim: rgba(0,0,0,0.25);
-  --border: rgba(0,0,0,0.08);
-  --border-hover: rgba(0,0,0,0.25);
-  --input-bg: rgba(0,0,0,0.03);
-  --hover-bg: rgba(0,0,0,0.03);
-  --active-bg: rgba(0,0,0,0.06);
-  --btn-bg: #0a0a0b;
-  --btn-text: #ffffff;
-  --btn-hover: rgba(0,0,0,0.85);
-}
-
-* {
-  font-family: 'DM Sans', system-ui, sans-serif;
+  --bg-primary: #F0EDEA;
+  --bg-secondary: rgba(26,24,22,0.03);
+  --bg-elevated: rgba(26,24,22,0.05);
+  --text-primary: #1A1816;
+  --text-secondary: rgba(26,24,22,0.55);
+  --text-muted: rgba(26,24,22,0.35);
+  --text-dim: rgba(26,24,22,0.2);
+  --border: rgba(26,24,22,0.08);
+  --border-hover: rgba(26,24,22,0.2);
+  --input-bg: rgba(26,24,22,0.03);
+  --hover-bg: rgba(26,24,22,0.03);
+  --active-bg: rgba(26,24,22,0.06);
+  --btn-bg: #1A1816;
+  --btn-text: #F0EDEA;
+  --btn-hover: rgba(26,24,22,0.85);
+  --tooltip-bg: #FFFFFF;
 }
 
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -76,3 +77,35 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .ambient-layer.lofi {
   background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(236, 72, 153, 0.08) 100%);
 }
+
+.heatmap-cell {
+  background-color: var(--border);
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.heatmap-cell:hover {
+  transform: scale(1.4);
+  z-index: 5;
+}
+
+.heatmap-cell.level-1 {
+  background-color: color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+.heatmap-cell.level-2 {
+  background-color: color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.heatmap-cell.level-3 {
+  background-color: color-mix(in srgb, var(--accent) 65%, transparent);
+}
+
+.heatmap-cell.level-4 {
+  background-color: color-mix(in srgb, var(--accent) 90%, transparent);
+}
+
+.overflow-x-auto::-webkit-scrollbar {
+  display: none;
+}
+
+@custom-media --xs (min-width: 480px);

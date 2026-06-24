@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Sidebar from './components/Sidebar'
 import MobileNav from './components/MobileNav'
 import Timer from './components/Timer'
@@ -6,9 +6,24 @@ import TaskList from './components/TaskList'
 import Calendar from './components/Calendar'
 import ThemePanel from './components/ThemePanel'
 import AmbientPanel from './components/AmbientPanel'
+import Stats from './components/Stats'
+import Heatmap from './components/Heatmap'
+import StreakBadge from './components/StreakBadge'
+import { useTimerStore } from './stores/timerStore'
+import { useSessionStore } from './stores/sessionStore'
 
 export default function App() {
   const [view, setView] = useState('pomodoro')
+  const completedSessions = useTimerStore((s) => s.completedSessions)
+  const logSession = useSessionStore((s) => s.logSession)
+  const prevRef = useRef(completedSessions)
+
+  useEffect(() => {
+    if (completedSessions > prevRef.current) {
+      logSession()
+    }
+    prevRef.current = completedSessions
+  }, [completedSessions, logSession])
 
   return (
     <div className="flex min-h-svh bg-[var(--bg-primary)]">
@@ -32,8 +47,19 @@ export default function App() {
           )}
 
           {view === 'stats' && (
-            <div className="w-full max-w-2xl mx-auto">
-              <p className="text-center py-16 text-sm text-[var(--text-muted)]">Stats — coming from Mohammed</p>
+            <div className="w-full max-w-3xl mx-auto space-y-8">
+              <div className="flex items-center">
+                <div className="flex-1">
+                  <Heatmap />
+                </div>
+                <div className="hidden sm:block shrink-0 ml-6">
+                  <StreakBadge />
+                </div>
+              </div>
+              <div className="sm:hidden">
+                <StreakBadge />
+              </div>
+              <Stats />
             </div>
           )}
 
