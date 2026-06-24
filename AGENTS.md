@@ -20,11 +20,11 @@ No test framework installed.
 - **Styling:** Tailwind intended but not configured yet — manually set up if adding styles
 
 ## Git
-| Branch | Who |
-|---|---|
-| `main` | production — only merged via PR |
-| `ahmed` | Ahmed commits here directly |
-| `mohamed` | Mohamed commits here directly |
+| Branch     | Who                             |
+|------------|---------------------------------|
+| `main`     | production — only merged via PR |
+| `ahmed`    | Ahmed commits here directly     |
+| `mohammed` | Mohammed commits here directly  |
 
 **Golden rule:** never edit a file the other person owns. Check `docs/superpowers/specs/2026-06-24-focus-flow-design.md` for the full conflict map.
 
