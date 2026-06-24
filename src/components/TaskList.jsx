@@ -40,7 +40,7 @@ export default function TaskList() {
   }
 
   return (
-    <div className="flex w-full max-w-xl flex-col gap-4">
+    <div className="flex w-full max-w-xl flex-col gap-4 px-2 sm:px-0">
       <div className="flex items-center justify-between">
         <h2 className="text-sm font-semibold tracking-widest uppercase text-[var(--text-muted)]">Tasks</h2>
         <button
@@ -65,7 +65,7 @@ export default function TaskList() {
             <Reorder.Item
               key={task.id}
               value={task}
-              className={`group flex items-center gap-3 rounded-xl px-4 py-3 transition-colors ${
+              className={`group flex items-center gap-3 rounded-xl px-3 sm:px-4 py-3 transition-colors ${
                 task.id === activeTaskId
                   ? 'bg-[var(--accent)]/10 ring-1 ring-[var(--accent)]/25'
                   : 'hover:bg-[var(--hover-bg)]'
@@ -77,7 +77,7 @@ export default function TaskList() {
                 type="checkbox"
                 checked={task.done}
                 onChange={() => handleToggle(task.id)}
-                className="h-5 w-5 cursor-pointer rounded border-[var(--border-hover)] bg-[var(--input-bg)] accent-[var(--accent)] shrink-0"
+                className="h-5 w-5 min-w-5 cursor-pointer rounded border-[var(--border-hover)] bg-[var(--input-bg)] accent-[var(--accent)] shrink-0"
               />
               {editingId === task.id ? (
                 <input
@@ -87,12 +87,12 @@ export default function TaskList() {
                   onBlur={() => submitEdit(task.id)}
                   onKeyDown={(e) => handleKeyDown(e, task.id)}
                   autoFocus
-                  className="flex-1 bg-transparent text-base text-[var(--text-primary)] outline-none"
+                  className="flex-1 bg-transparent text-sm sm:text-base text-[var(--text-primary)] outline-none"
                 />
               ) : (
-                <div className="flex flex-1 flex-col">
+                <div className="flex flex-1 flex-col min-w-0">
                   <span
-                    className={`text-base ${
+                    className={`text-sm sm:text-base truncate ${
                       task.done ? 'text-[var(--text-dim)] line-through' : 'text-[var(--text-primary)]'
                     }`}
                     onDoubleClick={() => startEdit(task)}
@@ -100,21 +100,21 @@ export default function TaskList() {
                     {task.title}
                   </span>
                   {task.description && (
-                    <span className="text-sm text-[var(--text-muted)] line-clamp-1">{task.description}</span>
+                    <span className="text-xs sm:text-sm text-[var(--text-muted)] truncate">{task.description}</span>
                   )}
-                  <div className="flex gap-3 mt-1">
+                  <div className="flex gap-2 sm:gap-3 mt-0.5 flex-wrap">
                     {task.dueDate && (
-                      <span className="text-xs text-[var(--text-dim)]">{task.dueDate}</span>
+                      <span className="text-[11px] sm:text-xs text-[var(--text-dim)]">{task.dueDate}</span>
                     )}
                     {task.priority && task.priority !== 'medium' && (
-                      <span className={`text-xs ${
+                      <span className={`text-[11px] sm:text-xs ${
                         task.priority === 'high' ? 'text-[var(--accent)]' : 'text-[var(--text-dim)]'
                       }`}>
                         {task.priority}
                       </span>
                     )}
                     {task.estimatedPomodoros > 1 && (
-                      <span className="text-xs text-[var(--text-dim)]">{task.estimatedPomodoros} pom</span>
+                      <span className="text-[11px] sm:text-xs text-[var(--text-dim)]">{task.estimatedPomodoros} pom</span>
                     )}
                   </div>
                 </div>
@@ -125,7 +125,7 @@ export default function TaskList() {
                   e.stopPropagation()
                   deleteTask(task.id)
                 }}
-                className="text-sm text-[var(--text-dim)] opacity-0 transition-all hover:text-[var(--text-secondary)] group-hover:opacity-100"
+                className="text-sm text-[var(--text-dim)] transition-all hover:text-[var(--text-secondary)] p-2 -mr-2"
               >
                 ✕
               </button>

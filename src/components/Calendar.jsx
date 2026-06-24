@@ -56,7 +56,7 @@ export default function Calendar() {
 
       <div className="grid grid-cols-7 gap-px">
         {DAYS.map((d) => (
-          <div key={d} className="py-2 text-center text-xs font-semibold tracking-wider uppercase text-[var(--text-dim)]">{d}</div>
+          <div key={d} className="py-2 sm:py-3 text-center text-xs sm:text-sm font-semibold tracking-wider uppercase text-[var(--text-dim)]">{d}</div>
         ))}
         {cells.map((d, i) => {
           if (d === null) return <div key={`empty-${i}`} />
@@ -66,13 +66,13 @@ export default function Calendar() {
           return (
             <div
               key={ds}
-              className={`relative flex items-center justify-center rounded-xl py-3 text-sm transition-colors ${
+              className={`relative flex items-center justify-center rounded-xl py-3 sm:py-4 text-sm sm:text-base transition-colors ${
                 isToday ? 'bg-[var(--accent)]/15 text-[var(--accent)] font-semibold' : 'text-[var(--text-muted)] hover:bg-[var(--hover-bg)]'
               }`}
             >
               {d}
               {dayTasks && dayTasks.length > 0 && (
-                <span className="absolute bottom-1.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-[var(--accent)]" />
+                <span className="absolute bottom-1.5 sm:bottom-2 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-[var(--accent)]" />
               )}
             </div>
           )

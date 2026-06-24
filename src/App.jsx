@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import Sidebar from './components/Sidebar'
+import MobileNav from './components/MobileNav'
 import Timer from './components/Timer'
 import TaskList from './components/TaskList'
 import Calendar from './components/Calendar'
 import ThemePanel from './components/ThemePanel'
-
-const PLACEHOLDER_STYLES = 'text-sm text-[var(--text-muted)] text-center py-16'
 
 export default function App() {
   const [view, setView] = useState('pomodoro')
@@ -14,37 +13,41 @@ export default function App() {
     <div className="flex min-h-svh bg-[var(--bg-primary)]">
       <Sidebar view={view} setView={setView} />
 
-      <main className="flex flex-1 flex-col items-center justify-center overflow-y-auto px-8 py-12">
-        {view === 'pomodoro' && (
-          <div className="flex flex-col items-center">
-            <Timer />
-          </div>
-        )}
+      <main className="flex flex-1 flex-col overflow-y-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 pb-24 lg:pb-12">
+        <div className="flex-1">
+          {view === 'pomodoro' && (
+            <div className="flex flex-col items-center justify-center h-full">
+              <Timer />
+            </div>
+          )}
 
-        {view === 'tasks' && (
-          <div className="flex w-full max-w-2xl flex-col items-center">
-            <TaskList />
-          </div>
-        )}
+          {view === 'tasks' && (
+            <div className="flex w-full max-w-2xl flex-col items-center mx-auto">
+              <TaskList />
+            </div>
+          )}
 
-        {view === 'stats' && (
-          <p className={PLACEHOLDER_STYLES}>
-            Stats dashboard — coming from Mohammed
-          </p>
-        )}
+          {view === 'stats' && (
+            <div className="w-full max-w-2xl mx-auto">
+              <p className="text-center py-16 text-sm text-[var(--text-muted)]">Stats — coming from Mohammed</p>
+            </div>
+          )}
 
-        {view === 'calendar' && (
-          <div className="flex w-full max-w-xl flex-col items-center">
-            <Calendar />
-          </div>
-        )}
+          {view === 'calendar' && (
+            <div className="flex w-full max-w-xl flex-col items-center mx-auto">
+              <Calendar />
+            </div>
+          )}
 
-        {view === 'theme' && (
-          <div className="flex w-full max-w-xl flex-col items-center">
-            <ThemePanel />
-          </div>
-        )}
+          {view === 'theme' && (
+            <div className="flex w-full max-w-xl flex-col items-center mx-auto">
+              <ThemePanel />
+            </div>
+          )}
+        </div>
       </main>
+
+      <MobileNav view={view} setView={setView} />
     </div>
   )
 }

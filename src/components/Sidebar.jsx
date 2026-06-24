@@ -29,7 +29,7 @@ function NavButton({ item, view, setView }) {
 
 export default function Sidebar({ view, setView }) {
   return (
-    <aside className="flex w-20 flex-col items-center border-r border-[var(--border)] bg-[var(--bg-secondary)] backdrop-blur-2xl h-svh">
+    <aside className="hidden lg:flex w-20 flex-col items-center border-r border-[var(--border)] bg-[var(--bg-secondary)] backdrop-blur-2xl h-svh">
       <div className="flex h-16 items-center justify-center">
         <span className="text-lg font-bold text-[var(--accent)]">FF</span>
       </div>
