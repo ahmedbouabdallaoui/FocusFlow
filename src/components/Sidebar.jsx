@@ -2,7 +2,7 @@ const NAV_ITEMS = [
   { id: 'pomodoro', label: 'Pomodoro', icon: '◉' },
   { id: 'tasks', label: 'Tasks', icon: '✓' },
   { id: 'stats', label: 'Stats', icon: '◈' },
-  { id: 'calendar', label: 'Calendar', icon: '☐' },
+  { id: 'heatmap', label: 'Heatmap', icon: '▦' },
 ]
 
 function NavButton({ item, view, setView }) {

@@ -64,23 +64,23 @@ export default function Stats() {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-3 gap-4">
-        <div className="bg-surface-secondary rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-accent">{todayCount}</div>
-          <div className="text-xs text-on-surface-secondary mt-1">Today</div>
+        <div className="rounded-lg p-4 text-center bg-[var(--bg-elevated)]">
+          <div className="text-2xl font-bold text-[var(--accent)]">{todayCount}</div>
+          <div className="text-xs text-[var(--text-secondary)] mt-1">Today</div>
         </div>
-        <div className="bg-surface-secondary rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-accent">{weekCount}</div>
-          <div className="text-xs text-on-surface-secondary mt-1">This Week</div>
+        <div className="rounded-lg p-4 text-center bg-[var(--bg-elevated)]">
+          <div className="text-2xl font-bold text-[var(--accent)]">{weekCount}</div>
+          <div className="text-xs text-[var(--text-secondary)] mt-1">This Week</div>
         </div>
-        <div className="bg-surface-secondary rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-accent">{totalHours}h</div>
-          <div className="text-xs text-on-surface-secondary mt-1">All Time</div>
+        <div className="rounded-lg p-4 text-center bg-[var(--bg-elevated)]">
+          <div className="text-2xl font-bold text-[var(--accent)]">{totalHours}h</div>
+          <div className="text-xs text-[var(--text-secondary)] mt-1">All Time</div>
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <div className="bg-surface-secondary rounded-lg p-4">
-          <h3 className="text-sm font-semibold mb-3">Focus vs Break</h3>
+        <div className="rounded-lg p-4 bg-[var(--bg-elevated)]">
+          <h3 className="text-sm font-semibold mb-3 text-[var(--text-primary)]">Focus vs Break</h3>
           <ResponsiveContainer width="100%" height={180}>
             <PieChart>
               <Pie
@@ -107,7 +107,7 @@ export default function Stats() {
               />
             </PieChart>
           </ResponsiveContainer>
-          <div className="flex justify-center gap-4 text-xs text-on-surface-secondary mt-1">
+          <div className="flex justify-center gap-4 text-xs text-[var(--text-secondary)] mt-1">
             <span className="flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-[#22c55e]" /> Focus
             </span>
@@ -117,8 +117,8 @@ export default function Stats() {
           </div>
         </div>
 
-        <div className="bg-surface-secondary rounded-lg p-4">
-          <h3 className="text-sm font-semibold mb-3">Last 7 Days</h3>
+        <div className="rounded-lg p-4 bg-[var(--bg-elevated)]">
+          <h3 className="text-sm font-semibold mb-3 text-[var(--text-primary)]">Last 7 Days</h3>
           <ResponsiveContainer width="100%" height={180}>
             <BarChart data={last7}>
               <XAxis

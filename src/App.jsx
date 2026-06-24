@@ -30,7 +30,7 @@ export default function App() {
           )}
 
           {view === 'stats' && (
-            <div className="w-full max-w-2xl mx-auto">
+            <div className="max-w-4xl mx-auto p-4 space-y-8">
               <Stats />
             </div>
           )}

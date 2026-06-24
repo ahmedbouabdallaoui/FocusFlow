@@ -140,7 +140,7 @@ export default function Heatmap() {
 
       {tooltip && (
         <div
-          className="fixed z-50 px-2 py-1 text-xs bg-[#1f2937] text-[#f1f5f9] rounded shadow-lg pointer-events-none whitespace-nowrap"
+          className="fixed z-50 px-2 py-1 text-xs bg-[var(--bg-elevated)] text-[var(--text-primary)] rounded shadow-lg border border-[var(--border)] pointer-events-none whitespace-nowrap"
           style={{ left: tooltip.x, top: tooltip.y - 28 }}
         >
           {tooltip.text}

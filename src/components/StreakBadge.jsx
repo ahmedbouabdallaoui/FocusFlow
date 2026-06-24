@@ -65,7 +65,7 @@ export default function StreakBadge() {
   }, [current, spring, display])
 
   return (
-    <div className="bg-surface-secondary rounded-lg p-4 text-center">
+    <div className="rounded-lg p-4 text-center bg-[var(--bg-elevated)]">
       <motion.div
         className="text-4xl mb-1"
         animate={{ scale: current > 0 ? [1, 1.2, 1] : 1 }}
@@ -73,18 +73,18 @@ export default function StreakBadge() {
       >
         {current > 0 ? '🔥' : '💤'}
       </motion.div>
-      <div className="text-3xl font-bold">
+      <div className="text-3xl font-bold text-[var(--text-primary)]">
         {animatedCount}
       </div>
-      <div className="text-sm text-on-surface-secondary">
+      <div className="text-sm text-[var(--text-secondary)]">
         {current > 0 ? 'day streak' : 'no active streak'}
       </div>
-      <div className="text-xs text-on-surface-secondary mt-2">
+      <div className="text-xs text-[var(--text-secondary)] mt-2">
         {current > 0
           ? 'Keep it going!'
           : 'Start a new streak'}
       </div>
-      <div className="text-xs text-on-surface-secondary mt-1">
+      <div className="text-xs text-[var(--text-secondary)] mt-1">
         Best: {best} days
       </div>
     </div>

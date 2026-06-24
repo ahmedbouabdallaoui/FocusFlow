@@ -68,7 +68,7 @@ export default function Ambient() {
   }
 
   return (
-    <div className={`ambient-bar fixed bottom-0 left-0 right-0 bg-surface-secondary border-t border-outline px-4 py-3 transition-colors ${activeMode ? `mode-${activeMode}` : ''}`}>
+    <div className={`ambient-bar fixed bottom-0 left-0 right-0 bg-[var(--bg-secondary)] border-t border-[var(--border)] px-4 py-3 transition-colors ${activeMode ? `mode-${activeMode}` : ''}`}>
       <div className="max-w-4xl mx-auto flex items-center justify-between">
         <div className="flex gap-2">
           {modes.map((mode) => (
@@ -77,8 +77,8 @@ export default function Ambient() {
               onClick={() => toggleMode(mode.id)}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm transition-colors ${
                 activeMode === mode.id
-                  ? 'bg-accent text-white'
-                  : 'bg-[#1e293b] text-on-surface-secondary hover:bg-[#334155]'
+                  ? 'bg-[var(--accent)] text-white'
+                  : 'bg-[var(--bg-elevated)] text-[var(--text-secondary)] hover:bg-[var(--hover-bg)]'
               }`}
             >
               <span>{mode.icon}</span>
@@ -92,10 +92,10 @@ export default function Ambient() {
           disabled={!activeMode}
           className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
             !activeMode
-              ? 'bg-[#1e293b] text-[#475569] cursor-not-allowed'
+              ? 'bg-[var(--bg-elevated)] text-[var(--text-dim)] cursor-not-allowed'
               : muted
-                ? 'bg-[#1e293b] text-on-surface-secondary hover:bg-[#334155]'
-                : 'bg-accent text-white'
+                ? 'bg-[var(--bg-elevated)] text-[var(--text-secondary)] hover:bg-[var(--hover-bg)]'
+                : 'bg-[var(--accent)] text-white'
           }`}
         >
           {muted ? '🔇 Muted' : '🔊 Sound'}
