@@ -82,16 +82,16 @@ A Pomodoro timer + task manager with a GitHub-style heatmap tracking focus sessi
 | 3 | Design system: colors, typography, ThemeProvider | Shared | Agree on palette, set CSS variables, build ThemeProvider |
 | 4 | Timer component — controls + radial countdown | Ahmed | Pomodoro timer with start/pause/reset, SVG ring |
 | 5 | Task CRUD + localStorage | Ahmed | Add/edit/delete tasks, persist, link active task to timer |
-| 6 | Heatmap component — 52-week grid | Mohamed | Build the GitHub-style contribution grid |
-| 7 | Timer → heatmap data pipeline | Mohamed | Save sessions with date, wire into heatmap color |
+| 6 | Heatmap component — 52-week grid | Mohammed | Build the GitHub-style contribution grid |
+| 7 | Timer → heatmap data pipeline | Mohammed | Save sessions with date, wire into heatmap color |
 
 ### Sprint 2 — Polish
 
 | # | Ticket | Owner | Description |
 |---|---|---|---|
-| 8 | Ambient modes — Rain / Coffee / Lofi | Mohamed | Animated backgrounds + Howler.js audio loops |
-| 9 | Stats dashboard — pie + bar charts | Mohamed | Recharts integration, session analytics |
-| 10 | Streak tracker — logic + animation | Mohamed | Consecutive day counter, flame animation |
+| 8 | Ambient modes — Rain / Coffee / Lofi | Mohammed | Animated backgrounds + Howler.js audio loops |
+| 9 | Stats dashboard — pie + bar charts | Mohammed | Recharts integration, session analytics |
+| 10 | Streak tracker — logic + animation | Mohammed | Consecutive day counter, flame animation |
 | 11 | Timer finish notification + sound | Ahmed | Browser notification, chime audio on session end |
 | 12 | Drag reorder tasks | Ahmed | Framer Motion's Reorder component |
 
@@ -108,13 +108,13 @@ A Pomodoro timer + task manager with a GitHub-style heatmap tracking focus sessi
 ```
 main                          ← production, only merged from ahmed & mohamed
  ├── ahmed                   ← Ahmed works here directly
- └── mohamed                 ← Mohamed works here directly
+ └── mohamed                 ← Mohammed works here directly
 ```
 
 ### Rules
 1. **No one commits directly to `main`** — only merge via PR from `ahmed` or `mohamed` branches
 2. **Ahmed works on `ahmed` branch** — commit all his work there, push daily
-3. **Mohamed works on `mohamed` branch** — commit all his work there, push daily
+3. **Mohammed works on `mohamed` branch** — commit all his work there, push daily
 4. **PR → `main`** — when a feature is complete, the other person reviews, then merges
 5. **Before merging to `main`**, both pull `main` into their branch and resolve conflicts locally
 6. **`main` must always compile** — broken code stays on personal branches
@@ -142,19 +142,19 @@ style(theme): adjust accent color transitions
 | **Never edit files the other person owns** | Check the Conflict Map below |
 | **Pull `main` into your branch daily** | `git pull origin main` — stay in sync |
 | **Message before touching shared files** | Ping the other person on Trello first |
-| **One person merges shared files** | Ahmed merges App.jsx → Mohamed handles his half after |
+| **One person merges shared files** | Ahmed merges App.jsx → Mohammed handles his half after |
 | **Resolve conflicts on YOUR branch** | `git pull origin main`, fix, commit — never on main |
 
 #### Typical Workflow
 ```bash
 # Ahmed: start a day
 git checkout ahmed
-git pull origin main          # get Mohamed's latest
+git pull origin main          # get Mohammed's latest
 # ... code ...
 git add -A && git commit -m "feat(timer): add pause/resume"
 git push origin ahmed
 
-# Mohamed: same flow
+# Mohammed: same flow
 git checkout mohamed
 git pull origin main          # get Ahmed's latest
 # ... code ...
@@ -170,7 +170,7 @@ git push origin main
 
 ### Conflict Map (who touches what)
 
-| File | Ahmed | Mohamed |
+| File | Ahmed | Mohammed |
 |---|---|---|
 | `src/components/Timer.jsx` | ✅ owns | ❌ stay off |
 | `src/components/TaskList.jsx` | ✅ owns | ❌ stay off |
