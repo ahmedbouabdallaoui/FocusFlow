@@ -138,25 +138,27 @@ export default function Stats() {
         <Card delay={0.1}>
           <h3 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--text-dim)' }}>Last 7 Days</h3>
           {totalSessions > 0 ? (
-            <div className="flex items-center h-[240px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={barData} margin={{ top: 10, right: 4, bottom: 5, left: -10 }}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" />
-                  <XAxis
-                    dataKey="date"
-                    tick={{ fontSize: 11, fill: 'var(--text-dim)' }}
-                    axisLine={{ stroke: 'var(--border)' }}
-                    tickLine={false}
-                  />
-                  <YAxis
-                    allowDecimals={false}
-                    tick={{ fontSize: 11, fill: 'var(--text-dim)' }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <Bar dataKey="sessions" fill="var(--accent)" radius={[4, 4, 0, 0]} maxBarSize={32} />
-                </BarChart>
-              </ResponsiveContainer>
+            <div className="overflow-x-auto pb-2" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <div className="h-[240px] min-w-[280px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={barData} margin={{ top: 10, right: 4, bottom: 5, left: -10 }}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" />
+                    <XAxis
+                      dataKey="date"
+                      tick={{ fontSize: 11, fill: 'var(--text-dim)' }}
+                      axisLine={{ stroke: 'var(--border)' }}
+                      tickLine={false}
+                    />
+                    <YAxis
+                      allowDecimals={false}
+                      tick={{ fontSize: 11, fill: 'var(--text-dim)' }}
+                      axisLine={false}
+                      tickLine={false}
+                    />
+                    <Bar dataKey="sessions" fill="var(--accent)" radius={[4, 4, 0, 0]} maxBarSize={32} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             </div>
           ) : (
             <div className="flex items-end justify-between h-[200px] pt-6 px-2 gap-2">

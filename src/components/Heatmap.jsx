@@ -87,7 +87,7 @@ export default function Heatmap() {
     let dayOffset = 0
     for (let mi = 0; mi < 12; mi++) {
       const startWeek = Math.floor((dayOffset + firstJan.getDay()) / 7)
-      positions.push({ label: MONTH_LABELS[mi], weekIndex: startWeek })
+      positions.push({ label: MONTH_LABELS[mi], weekIndex: startWeek, leftPx: startWeek * (CELL + GAP) })
       dayOffset += months[mi].days.length
     }
     return positions
@@ -119,16 +119,12 @@ export default function Heatmap() {
 
       <div className="overflow-x-auto pb-2 -mx-4 sm:mx-0 px-4 sm:px-0" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
         <div className="inline-block min-w-0">
-          <div className="flex mb-1 ml-0 sm:ml-[30px] text-[11px] font-medium text-[var(--text-dim)]">
-            {monthPositions.map((m, i) => {
-              const prevWeek = i === 0 ? 0 : monthPositions[i - 1].weekIndex
-              const w = (m.weekIndex - prevWeek) * (CELL + GAP) + (CELL + GAP) / 2
-              return (
-                <div key={m.label} style={{ width: w > 0 ? w : CELL + GAP }} className="shrink-0 text-left">
-                  {m.label}
-                </div>
-              )
-            })}
+          <div className="relative h-4 mb-1 ml-0 sm:ml-[30px] text-[11px] font-medium text-[var(--text-dim)]">
+            {monthPositions.map((m) => (
+              <span key={m.label} className="absolute top-0" style={{ left: m.leftPx }}>
+                {m.label}
+              </span>
+            ))}
           </div>
 
           <div className="flex gap-[3px]">
