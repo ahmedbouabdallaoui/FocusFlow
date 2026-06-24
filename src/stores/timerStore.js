@@ -1,22 +1,37 @@
 import { create } from 'zustand'
 
-const DURATIONS = {
-  focus: 25 * 60,
-  shortBreak: 5 * 60,
-  longBreak: 15 * 60,
+const AUTO_FLOW = [
+  { type: 'focus', duration: 20 * 60 },
+  { type: 'shortBreak', duration: 5 * 60 },
+  { type: 'focus', duration: 20 * 60 },
+  { type: 'shortBreak', duration: 5 * 60 },
+  { type: 'focus', duration: 20 * 60 },
+  { type: 'longBreak', duration: 15 * 60 },
+]
+
+const FLOW_LABELS = {
+  focus: { prefix: 'Focus', total: 3 },
+  shortBreak: { prefix: 'Break', total: 2 },
+  longBreak: { prefix: 'Long Break', total: 1 },
 }
 
-function getNextMode(mode, sessionCount) {
-  if (mode !== 'focus') return 'focus'
-  return sessionCount % 4 === 0 ? 'longBreak' : 'shortBreak'
+function getPhaseLabel(phaseIndex) {
+  const phase = AUTO_FLOW[phaseIndex]
+  const info = FLOW_LABELS[phase.type]
+  const count = Math.floor(phaseIndex / 2) + 1
+  return { label: phase.type === 'longBreak' ? 'Long Break' : `${info.prefix} ${count}/${info.total}`, type: phase.type }
 }
 
 export const useTimerStore = create((set, get) => ({
-  mode: 'focus',
-  secondsLeft: DURATIONS.focus,
+  phaseIndex: 0,
+  secondsLeft: AUTO_FLOW[0].duration,
   isRunning: false,
   activeTaskId: null,
   completedSessions: 0,
+  customDuration: null,
+
+  phaseLabel: getPhaseLabel(0).label,
+  phaseType: getPhaseLabel(0).type,
 
   start: () => {
     const { isRunning } = get()
@@ -27,32 +42,47 @@ export const useTimerStore = create((set, get) => ({
   pause: () => set({ isRunning: false }),
 
   reset: () => {
-    const { mode } = get()
-    set({ secondsLeft: DURATIONS[mode], isRunning: false })
+    const { phaseIndex, customDuration } = get()
+    set({ secondsLeft: customDuration || AUTO_FLOW[phaseIndex].duration, isRunning: false })
   },
 
-  setMode: (mode) => {
-    set({ mode, secondsLeft: DURATIONS[mode], isRunning: false })
+  setCustomDuration: (duration) => {
+    set({ secondsLeft: duration, customDuration: duration })
+  },
+
+  clearCustomDuration: () => {
+    const { phaseIndex } = get()
+    set({ customDuration: null, secondsLeft: AUTO_FLOW[phaseIndex].duration })
   },
 
   setActiveTask: (taskId) => set({ activeTaskId: taskId }),
 
   tick: () => {
-    const { secondsLeft, isRunning, mode, completedSessions } = get()
+    const { secondsLeft, isRunning, phaseIndex, completedSessions } = get()
     if (!isRunning || secondsLeft <= 0) return
 
     if (secondsLeft === 1) {
-      const nextMode = getNextMode(mode, completedSessions)
+      const phase = AUTO_FLOW[phaseIndex]
+      const isFocus = phase.type === 'focus'
+
       if (Notification.permission === 'granted') {
         new Notification('Focus Flow', {
-          body: mode === 'focus' ? 'Focus session complete! Time for a break.' : 'Break over! Time to focus.',
+          body: isFocus ? 'Focus session complete! Time for a break.' : 'Break over! Time to focus.',
         })
       }
+
+      const nextIndex = (phaseIndex + 1) % AUTO_FLOW.length
+      const nextPhase = AUTO_FLOW[nextIndex]
+      const label = getPhaseLabel(nextIndex)
+
       set({
-        secondsLeft: DURATIONS[nextMode],
-        mode: nextMode,
+        phaseIndex: nextIndex,
+        secondsLeft: nextPhase.duration,
         isRunning: false,
-        completedSessions: mode === 'focus' ? completedSessions + 1 : completedSessions,
+        customDuration: null,
+        completedSessions: isFocus ? completedSessions + 1 : completedSessions,
+        phaseLabel: label.label,
+        phaseType: label.type,
       })
       return
     }
@@ -60,5 +90,3 @@ export const useTimerStore = create((set, get) => ({
     set({ secondsLeft: secondsLeft - 1 })
   },
 }))
-
-export { DURATIONS }

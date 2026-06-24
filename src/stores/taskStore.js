@@ -8,13 +8,13 @@ export const useTaskStore = create(
     (set, get) => ({
       tasks: [],
 
-      addTask: (title) => {
-        const task = { id: nextId++, title, done: false, order: get().tasks.length }
-        set({ tasks: [...get().tasks, task] })
+      addTask: (task) => {
+        const t = { id: nextId++, done: false, order: get().tasks.length, ...task }
+        set({ tasks: [...get().tasks, t] })
       },
 
-      editTask: (id, title) => {
-        set({ tasks: get().tasks.map((t) => (t.id === id ? { ...t, title } : t)) })
+      editTask: (id, updates) => {
+        set({ tasks: get().tasks.map((t) => (t.id === id ? { ...t, ...updates } : t)) })
       },
 
       deleteTask: (id) => {

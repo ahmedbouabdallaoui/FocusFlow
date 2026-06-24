@@ -1,14 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { useTimerStore, DURATIONS } from '../stores/timerStore'
+import { useTimerStore } from '../stores/timerStore'
 
-const MODES = [
-  { key: 'focus', label: 'Focus' },
-  { key: 'shortBreak', label: 'Short Break' },
-  { key: 'longBreak', label: 'Long Break' },
-]
-
-const RADIUS = 120
+const RADIUS = 170
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS
 
 function formatTime(seconds) {
@@ -18,27 +12,24 @@ function formatTime(seconds) {
 }
 
 export default function Timer() {
-  const { mode, secondsLeft, isRunning, start, pause, reset, setMode, tick } =
-    useTimerStore()
+  const {
+    secondsLeft, isRunning, customDuration,
+    start, pause, reset, setCustomDuration, tick,
+  } = useTimerStore()
   const intervalRef = useRef(null)
-
   const chimeRef = useRef(null)
+
   if (!chimeRef.current) {
-    try {
-      chimeRef.current = new Audio('/chime.mp3')
-    } catch {
-      chimeRef.current = null
-    }
+    try { chimeRef.current = new Audio('/chime.mp3') } catch { chimeRef.current = null }
   }
 
-  const prevModeRef = useRef(mode)
-
+  const prevSecondsRef = useRef(secondsLeft)
   useEffect(() => {
-    if (prevModeRef.current !== mode && prevModeRef.current === 'focus' && mode !== 'focus') {
+    if (prevSecondsRef.current === 1 && secondsLeft > 1) {
       chimeRef.current?.play().catch(() => {})
     }
-    prevModeRef.current = mode
-  }, [mode])
+    prevSecondsRef.current = secondsLeft
+  }, [secondsLeft])
 
   useEffect(() => {
     if (isRunning) {
@@ -48,61 +39,56 @@ export default function Timer() {
   }, [isRunning, tick])
 
   useEffect(() => {
-    if (Notification.permission === 'default') {
-      Notification.requestPermission()
-    }
+    if (Notification.permission === 'default') Notification.requestPermission()
   }, [])
 
-  const total = DURATIONS[mode]
-  const progress = secondsLeft / total
+  const baseDuration = customDuration || 20 * 60
+  const progress = secondsLeft / baseDuration
   const offset = CIRCUMFERENCE * (1 - progress)
 
-  return (
-    <div className="flex flex-col items-center gap-6 p-8">
-      <div className="flex gap-2">
-        {MODES.map((m) => (
-          <button
-            key={m.key}
-            type="button"
-            onClick={() => setMode(m.key)}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-              mode === m.key
-                ? 'bg-white/10 text-white'
-                : 'text-white/50 hover:text-white/80'
-            }`}
-          >
-            {m.label}
-          </button>
-        ))}
-      </div>
+  function adjust(delta) {
+    const current = customDuration || 20 * 60
+    const next = Math.max(60, Math.min(180 * 60, current + delta * 60))
+    setCustomDuration(next)
+  }
 
+  return (
+    <div className="flex flex-col items-center gap-8">
       <div className="relative flex items-center justify-center">
-        <svg width="280" height="280" className="-rotate-90">
+        <svg width="380" height="380" className="-rotate-90">
           <circle
-            cx="140"
-            cy="140"
-            r={RADIUS}
-            fill="none"
-            stroke="rgba(255,255,255,0.1)"
-            strokeWidth="6"
+            cx="190" cy="190" r={RADIUS}
+            fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="4"
           />
           <motion.circle
-            cx="140"
-            cy="140"
-            r={RADIUS}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="6"
+            cx="190" cy="190" r={RADIUS}
+            fill="none" stroke="currentColor" strokeWidth="4"
             strokeLinecap="round"
             strokeDasharray={CIRCUMFERENCE}
             animate={{ strokeDashoffset: offset }}
-            transition={{ duration: 0.5, ease: 'easeInOut' }}
-            className="text-white"
+            transition={{ duration: 0.4, ease: 'easeInOut' }}
+            className="text-amber-400"
           />
         </svg>
-        <span className="absolute text-5xl font-light tracking-tight text-white">
-          {formatTime(secondsLeft)}
-        </span>
+        <div className="absolute flex items-center justify-center gap-8">
+          <button
+            type="button"
+            onClick={() => adjust(-1)}
+            className="text-2xl text-white/30 transition-colors hover:text-white/70"
+          >
+            −
+          </button>
+          <span className="min-w-[180px] text-center text-7xl font-light tracking-tight text-white">
+            {formatTime(secondsLeft)}
+          </span>
+          <button
+            type="button"
+            onClick={() => adjust(1)}
+            className="text-2xl text-white/30 transition-colors hover:text-white/70"
+          >
+            +
+          </button>
+        </div>
       </div>
 
       <div className="flex gap-4">
@@ -110,7 +96,7 @@ export default function Timer() {
           type="button"
           onClick={isRunning ? pause : start}
           whileTap={{ scale: 0.95 }}
-          className="rounded-full bg-white px-8 py-2.5 text-sm font-semibold text-neutral-900 transition-colors hover:bg-white/90"
+          className="rounded-full bg-white px-12 py-3 text-base font-semibold text-neutral-900 transition-colors hover:bg-white/90"
         >
           {isRunning ? 'Pause' : 'Start'}
         </motion.button>
@@ -118,7 +104,7 @@ export default function Timer() {
           type="button"
           onClick={reset}
           whileTap={{ scale: 0.95 }}
-          className="rounded-full border border-white/20 px-6 py-2.5 text-sm font-medium text-white/70 transition-colors hover:border-white/40 hover:text-white"
+          className="rounded-full border border-white/20 px-9 py-3 text-base font-medium text-white/60 transition-colors hover:border-white/40 hover:text-white/90"
         >
           Reset
         </motion.button>
