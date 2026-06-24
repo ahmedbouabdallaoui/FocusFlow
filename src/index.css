@@ -104,4 +104,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: color-mix(in srgb, var(--accent) 90%, transparent);
 }
 
+.overflow-x-auto::-webkit-scrollbar {
+  display: none;
+}
+
 @custom-media --xs (min-width: 480px);

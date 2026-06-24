@@ -5,10 +5,27 @@ function todayStr() {
   return new Date().toISOString().slice(0, 10)
 }
 
+function generateMockData() {
+  const data = []
+  const now = new Date()
+  const start = new Date(now)
+  start.setDate(now.getDate() - 60)
+  for (let d = new Date(start); d <= now; d.setDate(d.getDate() + 1)) {
+    const ds = d.toISOString().slice(0, 10)
+    const dow = d.getDay()
+    if (dow === 0 || dow === 6) {
+      if (Math.random() > 0.4) data.push({ date: ds, count: Math.floor(Math.random() * 3) + 1 })
+    } else {
+      if (Math.random() > 0.2) data.push({ date: ds, count: Math.floor(Math.random() * 6) + 2 })
+    }
+  }
+  return data
+}
+
 export const useSessionStore = create(
   persist(
     (set, get) => ({
-      sessions: [],
+      sessions: generateMockData(),
 
       logSession: () => {
         const date = todayStr()

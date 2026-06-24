@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts'
+import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts'
 import { useSessionStore } from '../stores/sessionStore'
 
 const FOCUS_MINUTES = 25
@@ -30,7 +30,7 @@ function Card({ children, delay = 0 }) {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.4, ease: 'easeOut' }}
-      className="rounded-xl border border-[var(--border)] p-4"
+      className="rounded-xl border border-[var(--border)] p-4 h-full"
       style={{ backgroundColor: 'var(--bg-secondary)' }}
     >
       {children}
@@ -40,23 +40,16 @@ function Card({ children, delay = 0 }) {
 
 export default function Stats() {
   const sessions = useSessionStore((s) => s.sessions)
-  const getTodayCount = useSessionStore((s) => s.getTodayCount)
-  const getWeekCount = useSessionStore((s) => s.getWeekCount)
-  const getTotalFocusHours = useSessionStore((s) => s.getTotalFocusHours)
-
-  const todayCount = useMemo(() => getTodayCount(), [getTodayCount])
-  const weekCount = useMemo(() => getWeekCount(), [getWeekCount])
-  const totalHours = useMemo(() => getTotalFocusHours(), [getTotalFocusHours])
   const totalSessions = useMemo(() => sessions.reduce((s, x) => s + x.count, 0), [sessions])
 
-  const pieData = useMemo(() => {
-    const focusMinutes = totalSessions * FOCUS_MINUTES
-    const breakMinutes = totalSessions * BREAK_MINUTES
-    return [
-      { name: 'Focus', value: Math.round(focusMinutes) },
-      { name: 'Break', value: Math.round(breakMinutes) },
-    ]
-  }, [totalSessions])
+  const focusMinutes = totalSessions * FOCUS_MINUTES
+  const breakMinutes = totalSessions * BREAK_MINUTES
+  const focusPct = totalSessions > 0 ? Math.round((focusMinutes / (focusMinutes + breakMinutes)) * 100) : 0
+
+  const pieData = useMemo(() => [
+    { name: 'Focus', value: focusMinutes },
+    { name: 'Break', value: breakMinutes },
+  ], [focusMinutes, breakMinutes])
 
   const barData = useMemo(() => {
     const last7 = []
@@ -74,86 +67,114 @@ export default function Stats() {
   }, [sessions])
 
   return (
-    <div className="w-full max-w-3xl mx-auto space-y-6">
-      <h2 className="text-sm font-semibold tracking-widest uppercase" style={{ color: 'var(--text-muted)' }}>Stats</h2>
-
-      <div className="grid grid-cols-1 xs:grid-cols-3 gap-3">
-        <Card delay={0.05}>
-          <span className="text-[11px] font-medium uppercase tracking-wider" style={{ color: 'var(--text-dim)' }}>Today</span>
-          <p className="text-2xl font-bold mt-1 tabular-nums" style={{ color: 'var(--text-primary)' }}>{todayCount}</p>
-          <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>focus sessions</p>
-        </Card>
-        <Card delay={0.1}>
-          <span className="text-[11px] font-medium uppercase tracking-wider" style={{ color: 'var(--text-dim)' }}>This Week</span>
-          <p className="text-2xl font-bold mt-1 tabular-nums" style={{ color: 'var(--text-primary)' }}>{weekCount}</p>
-          <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>focus sessions</p>
-        </Card>
-        <Card delay={0.15}>
-          <span className="text-[11px] font-medium uppercase tracking-wider" style={{ color: 'var(--text-dim)' }}>Total Time</span>
-          <p className="text-2xl font-bold mt-1 tabular-nums" style={{ color: 'var(--text-primary)' }}>{totalHours.toFixed(1)}</p>
-          <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>focus hours</p>
-        </Card>
-      </div>
+    <div className="w-full max-w-3xl mx-auto">
+      <h2 className="text-sm font-semibold tracking-widest uppercase mb-4" style={{ color: 'var(--text-muted)' }}>Stats</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <Card delay={0.2}>
-          <h3 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--text-dim)' }}>Focus vs Break</h3>
+        <Card delay={0.05}>
+          <h3 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--text-dim)' }}>Work vs Rest</h3>
           {totalSessions > 0 ? (
-            <div className="flex items-center justify-center">
-              <ResponsiveContainer width="100%" height={220}>
-                <PieChart>
-                  <Pie
-                    data={pieData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={55}
-                    outerRadius={85}
-                    paddingAngle={3}
-                    dataKey="value"
-                    stroke="none"
-                  >
-                    {pieData.map((entry, i) => (
-                      <Cell key={entry.name} fill={PIE_COLORS[i]} />
-                    ))}
-                  </Pie>
-                  <Tooltip content={<CustomTooltip />} />
-                </PieChart>
-              </ResponsiveContainer>
+            <div className="flex flex-col items-center">
+              <div className="relative flex items-center justify-center">
+                <ResponsiveContainer width={200} height={200}>
+                  <PieChart>
+                    <Pie
+                      data={pieData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={62}
+                      outerRadius={88}
+                      paddingAngle={3}
+                      dataKey="value"
+                      stroke="none"
+                    >
+                      {pieData.map((entry, i) => (
+                        <Cell key={entry.name} fill={PIE_COLORS[i]} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="absolute flex flex-col items-center pointer-events-none">
+                  <span className="text-2xl font-bold tabular-nums" style={{ color: 'var(--text-primary)' }}>{focusPct}%</span>
+                  <span className="text-[11px] font-medium" style={{ color: 'var(--text-muted)' }}>focus</span>
+                </div>
+              </div>
+              <div className="flex gap-6 mt-2">
+                <div className="flex items-center gap-2">
+                  <div className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: 'var(--accent)' }} />
+                  <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>Focus {Math.round(focusMinutes)}min</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: 'var(--border)' }} />
+                  <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>Break {Math.round(breakMinutes)}min</span>
+                </div>
+              </div>
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center h-[180px] text-center">
-              <p className="text-sm font-medium" style={{ color: 'var(--text-muted)' }}>No data yet</p>
-              <p className="text-xs mt-1" style={{ color: 'var(--text-dim)' }}>Complete a focus session to see your breakdown</p>
+            <div className="flex flex-col items-center">
+              <div className="relative flex items-center justify-center h-[200px]">
+                <svg width="176" height="176" viewBox="0 0 176 176" className="absolute">
+                  <circle cx="88" cy="88" r="75" fill="none" stroke="var(--border)" strokeWidth="26" strokeDasharray="4 4" opacity="0.3" />
+                </svg>
+                <div className="flex flex-col items-center pointer-events-none">
+                  <span className="text-2xl font-bold tabular-nums" style={{ color: 'var(--text-dim)' }}>0%</span>
+                  <span className="text-[11px] font-medium" style={{ color: 'var(--text-dim)' }}>focus</span>
+                </div>
+              </div>
+              <div className="flex gap-6 mt-1">
+                <div className="flex items-center gap-2">
+                  <div className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: 'var(--border)', opacity: 0.3 }} />
+                  <span className="text-xs" style={{ color: 'var(--text-dim)' }}>Focus &mdash;min</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: 'var(--border)', opacity: 0.3 }} />
+                  <span className="text-xs" style={{ color: 'var(--text-dim)' }}>Break &mdash;min</span>
+                </div>
+              </div>
             </div>
           )}
         </Card>
 
-        <Card delay={0.25}>
+        <Card delay={0.1}>
           <h3 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--text-dim)' }}>Last 7 Days</h3>
           {totalSessions > 0 ? (
-            <ResponsiveContainer width="100%" height={220}>
-              <BarChart data={barData} margin={{ top: 5, right: 5, bottom: 5, left: -15 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" />
-                <XAxis
-                  dataKey="date"
-                  tick={{ fontSize: 11, fill: 'var(--text-dim)' }}
-                  axisLine={{ stroke: 'var(--border)' }}
-                  tickLine={false}
-                />
-                <YAxis
-                  allowDecimals={false}
-                  tick={{ fontSize: 11, fill: 'var(--text-dim)' }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-                <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="sessions" fill="var(--accent)" radius={[4, 4, 0, 0]} maxBarSize={32} />
-              </BarChart>
-            </ResponsiveContainer>
+            <div className="flex items-center h-[240px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={barData} margin={{ top: 10, right: 5, bottom: 5, left: -15 }}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" />
+                  <XAxis
+                    dataKey="date"
+                    tick={{ fontSize: 11, fill: 'var(--text-dim)' }}
+                    axisLine={{ stroke: 'var(--border)' }}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    allowDecimals={false}
+                    tick={{ fontSize: 11, fill: 'var(--text-dim)' }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <Bar dataKey="sessions" fill="var(--accent)" radius={[4, 4, 0, 0]} maxBarSize={32} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           ) : (
-            <div className="flex flex-col items-center justify-center h-[180px] text-center">
-              <p className="text-sm font-medium" style={{ color: 'var(--text-muted)' }}>No data yet</p>
-              <p className="text-xs mt-1" style={{ color: 'var(--text-dim)' }}>Your weekly activity will appear here</p>
+            <div className="flex items-end justify-between h-[200px] pt-6 px-2 gap-2">
+              {['Mon','','Wed','','Fri','',''].map((d, i) => (
+                <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                  <div
+                    className="w-full rounded-[4px]"
+                    style={{
+                      height: `${[40,60,30,70,20,50,0][i]}px`,
+                      backgroundColor: 'var(--border)',
+                      opacity: 0.2,
+                    }}
+                  />
+                  <span className="text-[10px]" style={{ color: 'var(--text-dim)' }}>
+                    {d || ['M','T','W','T','F','S','S'][i]}
+                  </span>
+                </div>
+              ))}
             </div>
           )}
         </Card>

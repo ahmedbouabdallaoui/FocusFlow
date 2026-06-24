@@ -79,7 +79,7 @@ export default function Heatmap() {
       weeks.push(week)
     }
     return weeks
-  }, [months])
+  }, [months, year])
 
   const monthPositions = useMemo(() => {
     const firstJan = new Date(year, 0, 1)
@@ -117,7 +117,7 @@ export default function Heatmap() {
         </div>
       </div>
 
-      <div className="overflow-x-auto pb-2 -mx-4 sm:mx-0 px-4 sm:px-0">
+      <div className="overflow-x-auto pb-2 -mx-4 sm:mx-0 px-4 sm:px-0" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
         <div className="inline-block min-w-0">
           <div className="flex mb-1 ml-[30px] text-[11px] font-medium text-[var(--text-dim)]">
             {monthPositions.map((m, i) => {
@@ -168,16 +168,17 @@ export default function Heatmap() {
             ))}
           </div>
 
-          <div className="flex items-center gap-1.5 mt-3 justify-end text-[11px] text-[var(--text-dim)]">
-            <span>Less</span>
-            <div className="heatmap-cell h-[12px] w-[12px] rounded-[2px]" />
-            <div className="heatmap-cell level-1 h-[12px] w-[12px] rounded-[2px]" />
-            <div className="heatmap-cell level-2 h-[12px] w-[12px] rounded-[2px]" />
-            <div className="heatmap-cell level-3 h-[12px] w-[12px] rounded-[2px]" />
-            <div className="heatmap-cell level-4 h-[12px] w-[12px] rounded-[2px]" />
-            <span>More</span>
-          </div>
         </div>
+      </div>
+
+      <div className="flex items-center gap-1.5 mt-3 justify-end text-[11px] text-[var(--text-dim)]">
+        <span>Less</span>
+        <div className="heatmap-cell h-[12px] w-[12px] rounded-[2px]" />
+        <div className="heatmap-cell level-1 h-[12px] w-[12px] rounded-[2px]" />
+        <div className="heatmap-cell level-2 h-[12px] w-[12px] rounded-[2px]" />
+        <div className="heatmap-cell level-3 h-[12px] w-[12px] rounded-[2px]" />
+        <div className="heatmap-cell level-4 h-[12px] w-[12px] rounded-[2px]" />
+        <span>More</span>
       </div>
     </div>
   )
